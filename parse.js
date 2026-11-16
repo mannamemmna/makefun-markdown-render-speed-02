@@ -160,7 +160,13 @@ function decodeEntities(s) {
   });
 }
 
+// encodeURI leaves every char in this class alone except '%' (-> '%25'), and the
+// next step turns '%25' back into '%': for these strings the round trip is the
+// identity, so skip it. Anything else still goes through encodeURI.
+const HREF_SAFE = /^[A-Za-z0-9;,/?:@&=+$_.!~*'()#%-]*$/;
+
 function cleanUrl(href) {
+  if (HREF_SAFE.test(href)) return href;
   try {
     return encodeURI(href).replace(/%25/g, '%');
   } catch {

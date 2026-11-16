@@ -54,12 +54,20 @@ verified over multiple consecutive full runs).
 
 ## Performance
 
-Full 720-case set, node 26:
+Full 720-case set, node 26, CPU time (`process.cpuUsage`, user+system) per
+pass, marked and this entry interleaved in one process, minimum of 7 rounds
+(the least noise-contaminated estimator):
 
-| parser        | cpu time      |
-|---------------|---------------|
-| marked 18.1.3 | ~1540–1710 ms |
-| this entry    | ~1070–1245 ms (~25–35% faster) |
+| run | marked 18.1.3 | this entry | ratio |
+|-----|---------------|------------|-------|
+| 1   | 704 ms        | 664 ms     | 1.06x |
+| 2   | 692 ms        | 688 ms     | 1.01x |
+
+So roughly parity, with a small edge on the floor. Note this was measured on
+a shared 2-core box at load average ~2, where medians swing ±30% in both
+directions; the single-CPU container the competition grades in should show
+less spread, but the figures above are what was reproducible here rather than
+a best-case claim.
 
 ## License
 
