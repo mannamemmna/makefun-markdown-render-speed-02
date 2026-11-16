@@ -1,8 +1,11 @@
 # markdown-render-speed-02 — entry
 
-A dependency-free Markdown → HTML parser written from scratch (`parse.js`).
-Its output is byte-identical to the vendored marked 18.1.3 baseline
-(default options: GFM, no breaks) on all 720 practice cases in the kit.
+A dependency-free Markdown → HTML parser written from scratch (`parse.js`),
+plus a competition driver (`main.ts`). Parser output is byte-identical to the
+vendored marked 18.1.3 baseline (default options: GFM, no breaks) on all 720
+practice cases in the kit. marked 18.1.3 is credited as the behavioral
+reference whose output this parser matches; nothing in this entry copies or
+vendors marked's code.
 
 ## Usage
 
@@ -15,6 +18,14 @@ parse('# hello *world*\n\n- [x] done\n');
 
 `parse(markdown)` takes a CommonMark/GFM string and returns the HTML string
 that marked would produce. No options, no dependencies, single module.
+
+## Driver
+
+`main.ts` (erasable TypeScript, node built-ins only) is the competition
+entry point: it reads `cases.json` from `MAKEFUN_INPUT_DIR` (default
+`/input`), renders each case with `parse`, and writes `html.json` — a JSON
+array of the HTML strings in the cases' order — to `MAKEFUN_OUTPUT_DIR`
+(default `/output`).
 
 ## Design
 
@@ -45,10 +56,10 @@ verified over multiple consecutive full runs).
 
 Full 720-case set, node 26:
 
-| parser      | cpu time   |
-|-------------|------------|
-| marked      | ~1540–1710 ms |
-| this entry  | ~1070–1245 ms (~25–35% faster) |
+| parser        | cpu time      |
+|---------------|---------------|
+| marked 18.1.3 | ~1540–1710 ms |
+| this entry    | ~1070–1245 ms (~25–35% faster) |
 
 ## License
 
